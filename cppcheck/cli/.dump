@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<dumps>
+<dump cfg="tPlatform_Windows=1;_WIN32=1;__GNUC__=4;__clang__=1;__llvm__=1;__x86_64__=1;tPlatform_Windows=1;_WIN32=1;__GNUC__=4;__clang__=1;__llvm__=1;__x86_64__=1">
+  <directivelist>
+  </directivelist>
+  <tokenlist>
+  </tokenlist>
+  <scopes>
+    <scope id="007429D0" type="Global"/>
+  </scopes>
+  <variables>
+  </variables>
+</dump>
