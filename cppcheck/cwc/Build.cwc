@@ -1,0 +1,30 @@
+-{vFlag}=""
+>
+-{sOut}={_sPlatform}_{_sConfig_Type}_{_sOpt}
+>
+-{vIncl}=
+-I ../include/ 
+-I ../externals/tinyxml/
+-I ../externals/simplecpp/
+>
+;Build Engine
+-c ../lib/ -o obj/{sOut}/
+-{vIncl} -{vOS_Flag}
+>
+;Generate Dynamic Lib
+;-o obj/{sOut}/lib/ -#To Lib/{sOut}/Chipmunk.{_sDynamic}
+>
+;Generate Static Lib
+;-o obj/{sOut}/lib/ -#To Lib/{sOut}/libChipmunk.a
+>
+;Build an External 
+-c ../externals/ -o obj/{sOut}/
+-{vIncl}
+-{vOS_Flag}
+>
+;Generate executable
+-o obj/{sOut}/ -#To _out/{sOut}/App.*
+{vOS_FlagLink}
+>
+-#Run
+

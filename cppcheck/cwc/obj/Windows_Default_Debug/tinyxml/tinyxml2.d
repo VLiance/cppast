@@ -1,0 +1,57 @@
+obj/Windows_Default_Debug/tinyxml/tinyxml2.o: \
+ ../externals/tinyxml/tinyxml2.cpp ../externals/tinyxml/tinyxml2.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/cctype \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32/bits/c++config.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32/bits/os_defines.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/i686-w64-mingw32/bits/cpu_defines.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/ctype.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/crtdefs.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/_mingw.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/_mingw_mac.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/_mingw_secapi.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/vadefs.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/sdks/_mingw_directx.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/sdks/_mingw_ddk.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/climits \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed/limits.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed/syslimits.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/limits.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/cstdio \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/include/stdio.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/stdio.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/_mingw_print_push.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/_mingw_off_t.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/swprintf.inl \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/sec_api/stdio_s.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/_mingw_print_pop.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/cstdlib \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/stdlib.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/sec_api/stdlib_s.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/stdlib.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/malloc.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/std_abs.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/cstring \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/string.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/sec_api/string_s.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/stdint.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/stdint.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/stddef.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/stddef.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/new \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/exception \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/exception.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/exception_ptr.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/exception_defines.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/cxxabi_init_exception.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/typeinfo \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/hash_bytes.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/nested_exception.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/move.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/bits/concept_check.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/type_traits \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/cstddef \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/c++/cstdarg \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/lib/gcc/i686-w64-mingw32/8.1.0/include/stdarg.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/stdarg.h \
+ G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/_mingw_stdarg.h
+Cwc:VLianceTool/LibRT Default g++ (5/12/2018 11:31:08 AM) >>  -ggdb -I"G:/dev/prog/cppast/cppcheck/cwc/" -m32 -I"G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/" -I"G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/c++/" -I"G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/i686-w64-mingw32/include/c++/backward/" -I"G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/include/" -I"G:/dev/_Cwc/Toolchain/VLianceTool/LibRT/LibRT-8.0.9.7/pthreads/" -Werror=return-type -MD -DDsToolchain="VLianceTool_LibRT" -DDsPlatform="Windows" -DD_Platform_Windows -DDsPlatform_File="Default" -DD_Debug -DDsOpt="Debug" -I ../include/ -I ../externals/tinyxml/ -I ../externals/simplecpp/
