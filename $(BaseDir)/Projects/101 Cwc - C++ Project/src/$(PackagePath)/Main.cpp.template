@@ -1,0 +1,13 @@
+// $(PackageName);
+#include <iostream>
+
+using namespace std;
+
+/**
+$(CBI)* ...
+$(CBI)* @author $(DefaultUser)
+$(CBI)*/
+int main() $(CSLB){
+    cout << "Hello world!" << endl;
+    return 0;
+}

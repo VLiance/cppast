@@ -1,0 +1,20 @@
+﻿<Compiler name="LibRT">
+  <x64>
+    <Root />
+    <Cpp>-wCompiler=_LibRT_msvc</Cpp>
+    <C>-wCompiler=_LibRT_msvc</C>
+    <Linker_Static>-wCompiler=_LibRT_msvc</Linker_Static>
+    <Linker_Dynamic>-wCompiler=_LibRT_msvc</Linker_Dynamic>
+    <Resource>-wCompiler=_LibRT_msvc</Resource>
+    <Website>21</Website>
+  </x64>
+  <x32>
+    <Root>C:/LLVM_3_8_1/bin/</Root>
+    <Cpp>clang-tidy.exe</Cpp>
+    <C>clang-rename.exe</C>
+    <Linker_Static>clang-cl.exe</Linker_Static>
+    <Linker_Dynamic>lld-link.exe</Linker_Dynamic>
+    <Resource>ld.lld.exe</Resource>
+    <Website>1111</Website>
+  </x32>
+</Compiler>
