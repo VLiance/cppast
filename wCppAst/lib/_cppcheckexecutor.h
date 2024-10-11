@@ -50,6 +50,8 @@ public:
      **/
     int check_wrapper(std::string _sFile, CppCheck& cppcheck, int argc, const char* const argv[]);
 
+CmdLineParser* Parser();
+CppCheck* cppCheck();
 
 	bool fRun();
     /**

@@ -1718,19 +1718,19 @@ bool Tokenizer::simplifyTokens1(const std::string &configuration)
 
     _configuration = configuration;
 
-
+        printf("\n-*b1");
 //  uselss ??
     if (!simplifyTokenList1(list.getFiles().front().c_str())){
         return false;
     }
-
+        printf("\n-*b1.5");
     list.createAst();
 
-#ifdef _DEBUG //CW- Mod
+//#ifdef _DEBUG //CW- Mod
     list.validateAst(); //CW-
-#endif
+//#endif
 
-
+        printf("\n-*b2");
     createSymbolDatabase();
 
     // Use symbol database to identify rvalue references. Split && to & &. This is safe, since it doesn't delete any tokens (which might be referenced by symbol database)
@@ -1745,7 +1745,7 @@ bool Tokenizer::simplifyTokens1(const std::string &configuration)
             endTok->next()->scope(endTok->scope());
         }
     }
-
+        printf("\n-*b3");
     SymbolDatabase::setValueTypeInTokenList(list.front(), isCPP(), _settings);
     ValueFlow::setValues(&list, _symbolDatabase, _errorLogger, _settings);
 
@@ -3311,10 +3311,11 @@ bool Tokenizer::simplifySizeof()
 
 bool Tokenizer::simplifyTokenList1(const char FileName[])
 {
-/*
+
     if (_settings->terminated())
         return false;
-*/
+
+printf("c1\n");
     // if MACRO
     for (Token *tok = list.front(); tok; tok = tok->next()) {
         if (Token::Match(tok, "if|for|while|BOOST_FOREACH %name% (")) {
@@ -3328,7 +3329,7 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
         }
     }
 
-
+printf("c2\n");
     // remove MACRO in variable declaration: MACRO int x;
     removeMacroInVarDecl();
 
@@ -3340,7 +3341,7 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
 
 
     createLinks();  //Important
-
+printf("c3\n");
 
 
     // Bail out if code is garbage
@@ -3360,10 +3361,10 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
     }
 
 
-/*
+
     if (_settings->terminated())
         return false;
-*/
+
     // Remove [[deprecated]]
     simplifyDeprecated();
 
@@ -3400,10 +3401,10 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
     }
 
 
-/*
+
     if (!simplifyAddBraces())
         return false;
-*/
+
     sizeofAddParentheses();
 
     // Simplify: 0[foo] -> *(foo)
@@ -3414,10 +3415,10 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
             tok->linkAt(1)->str(")");
         }
     }
-/*
+
     if (_settings->terminated())
         return false;
-*/
+
 
 
     // Remove "volatile", "inline", "register", and "restrict"
@@ -3461,10 +3462,10 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
     if (!isC() && !_settings->library.markupFile(FileName)) {
         findComplicatedSyntaxErrorsInTemplates();
     }
-/*
+
     if (_settings->terminated())
         return false;
-*/
+
 
 
     // remove calling conventions __cdecl, __stdcall..
@@ -3496,10 +3497,10 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
 
     // convert Microsoft string functions
     simplifyMicrosoftStringFunctions();
-/*
+
     if (_settings->terminated())
         return false;
-*/
+
 
 
     // Remove Qt signals and slots
@@ -3563,11 +3564,11 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
     // http://packages.debian.org/sid/upx-ucl
     // analyse the file src/stub/src/i386-linux.elf.interp-main.c
     validate();
-/*
+
     // The simplify enum have inner loops
     if (_settings->terminated())
         return false;
-*/
+
     // Put ^{} statements in asm()
     simplifyAsm2();
 
@@ -3584,29 +3585,29 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
     // collapse compound standard types into a single token
     // unsigned long long int => long (with _isUnsigned=true,_isLong=true)
     simplifyStdType();  //Imp
-/*
-    if (_settings->terminated())
-        return false;
-*/
-    // simplify bit fields..
-    simplifyBitfields();
-/*
+
     if (_settings->terminated())
         return false;
 
-*/
+    // simplify bit fields..
+    simplifyBitfields();
+
+    if (_settings->terminated())
+        return false;
+
+
     // struct simplification "struct S {} s; => struct S { } ; S s ;
     simplifyStructDecl();
-/*
+
     if (_settings->terminated())
         return false;
-*/
+
     // x = ({ 123; });  =>   { x = 123; }
     simplifyAssignmentBlock();
-/*
+
     if (_settings->terminated())
         return false;
-*/
+
     simplifyVariableMultipleAssign();
 
     // Collapse operator name tokens into single token
@@ -3628,11 +3629,11 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
 
         // Handle templates..
         simplifyTemplates();
-/*
+
         // The simplifyTemplates have inner loops
         if (_settings->terminated())
             return false;
-*/
+
         // sometimes the "simplifyTemplates" fail and then unsimplified
         // function calls etc remain. These have the "wrong" syntax. So
         // this function will just fix so that the syntax is corrected.
@@ -3673,11 +3674,11 @@ bool Tokenizer::simplifyTokenList1(const char FileName[])
 
     // specify array size
     arraySize();
-/*
+
     // The simplify enum might have inner loops
     if (_settings->terminated())
         return false;
-*/
+
     // Add std:: in front of std classes, when using namespace std; was given
     simplifyNamespaceStd();
 
@@ -7672,7 +7673,7 @@ void Tokenizer::syntaxError(const Token *tok) const
 void Tokenizer::syntaxError(const Token *tok, char c) const
 {
     reportError(tok, Severity::debug, "debug", "(="+tok->str() +")");
-    return;//CW mod
+  //  return;//CW mod
 
 
 
@@ -9618,6 +9619,7 @@ void Tokenizer::printUnknownTypes() const
         }
     }
 }
+
 
 void Tokenizer::simplifyMathExpressions()
 {

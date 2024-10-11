@@ -108,55 +108,101 @@ unsigned int CppCheck::check(const ImportProject::FileSettings &fs)
 
 
 
+/*
+const char* ws = " \t\n\r\f\v";
+// trim from end of string (right)
+inline std::string& rtrim(std::string& s, const char* t = ws){
+    s.erase(s.find_last_not_of(t) + 1);
+    return s;
+}
+// trim from beginning of string (left)
+inline std::string& ltrim(std::string& s, const char* t = ws){
+    s.erase(0, s.find_first_not_of(t));
+    return s;
+}
+// trim from both ends of string (left & right)
+inline std::string& trim(std::string& s, const char* t = ws){
+    return ltrim(rtrim(s, t), t);
+}*/
+
+std::string trim(const std::string &s){
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && isspace(*it))
+        it++;
+
+    std::string::const_reverse_iterator rit = s.rbegin();
+    while (rit.base() != it && isspace(*rit))
+        rit++;
+
+    return std::string(it, rit.base());
+}
+
+namespace simplecpp{std::string simplifyPath(std::string path);}
+std::string  CppCheck::fSimplifyPath(const std::string& filename){
+    std::string filename2 = trim(filename);
+    return simplecpp::simplifyPath(trim(filename));
+}
+
+	// return simplecpp::simplifyPath(s);
+
+ObjFile*  CppCheck::fGetFileObj(const std::string& filename){
+    return fGetFileObjRaw(fSimplifyPath(filename));
+}
+ObjFile*  CppCheck::fGetFileObjRaw(const std::string& filename){
+    if(filename == ""){
+		return nullptr;
+	}
+//	printf("\nTry: %s", filename.c_str());
+    std::map<std::string,  ObjFile*>::iterator _FoundKey = aFileData.find(filename);
+	if ( _FoundKey != aFileData.end() ) {
+			//Exist
+			//	printf("\nEXIST: %s%s", filename.c_str() , "|");
+			return _FoundKey->second;
+	}else{
+        return nullptr;
+	}
+}
 
 
 ObjFile*  CppCheck::fReadFile(const std::string& filename){
 
-
-	ObjFile* _oObjFile = nullptr;
 	if(filename == ""){
 		return nullptr;
 	}
 
 
-	//// IF Already exist ////
-	std::map<std::string,  ObjFile*>::iterator _FoundKey = aFileData.find(filename);
-	if ( _FoundKey != aFileData.end() ) {
-			// Already exist
-		//	printf("\n Already exist: %s", filename.c_str() );
-			return _FoundKey->second;
-	}
-	////////////////////////
-
-		std::ifstream fileStream(filename);
+    std::string realFilename = fSimplifyPath(filename);
+	ObjFile* _oObjFile = fGetFileObjRaw(realFilename);
+    if(_oObjFile != nullptr){ //Already exist
+        //	printf("\n Already exist: %s", filename.c_str() );
+        return _oObjFile;
+    }
 
 
 		//printf("\n\n--//////////////////////// ANALYSE FILE //////////: %s\n", filename.c_str());
 
 	  try {
 
-		ObjFile* _oPtrObjFile = new ObjFile(_settings, this);
+		ObjFile* _oPtrObjFile = new ObjFile(_settings, this, this);
 
-		std::pair< std::map<std::string, ObjFile*>::iterator ,bool> result = aFileData.insert( { filename, _oPtrObjFile } );
+		std::pair< std::map<std::string, ObjFile*>::iterator ,bool> result = aFileData.insert( { realFilename, _oPtrObjFile } );
+	//		printf("\nInsert: %s%s", realFilename.c_str() , "|");
 		std::map<std::string,  ObjFile*>::iterator _Key = result.first;
 		_oObjFile = _Key->second;
 
-		_oObjFile->fIni(filename);
+		_oObjFile->fIni(realFilename);
+		_oObjFile->fReadFileToToken();
 		_oObjFile->fTokenize();
 
 		//_oObjFile->fSendFunctions();
-
-		//Load recursively
-		for (unsigned int i = 0; i <  _oObjFile->oPreproc->aIncludesList.size(); ++i) {
-            ObjFile* _oFile = fReadFile(_oObjFile->oPreproc->aIncludesList[i] );
-            if(_oFile != nullptr){
-                _oObjFile->aIncludeObj.push_back( _oFile );
-            }
-		}
+        _oObjFile->fLoadAllInclude();
 
 
-	return _oPtrObjFile;
 
+
+return _oPtrObjFile;
+
+	std::ifstream fileStream(filename);
 	//	Preprocessor* preprocessor =
 		Preprocessor* preprocessor =  _oObjFile->oPreproc;
 
@@ -343,8 +389,9 @@ unsigned int CppCheck::processFile(const std::string& filename, const std::strin
 	//ObjFile* _oFile = fReadFile( "E:/_Project/Cwc/_Cwc_Demos/Demos/Base_Example/01_HelloWorld/HelloWorld.cpp");
 	ObjFile* _oFile = fReadFile( filename);
 
+    _oFile->fOutputClass();
 //_oFile->fGetAllFunctions();
-  printf("\n%s\n", _oFile->fGetAllFunctions().c_str());
+
 
 /*
 	///All other files
@@ -564,10 +611,10 @@ std::string  filenameAss ="E:/_Project/Cwc/_Cwc_Demos/Demos/Base_Example/01_Hell
                 timer.Stop();
 
 				S_timerResults.ShowResults(SHOWTIME_FILE);
-/*
+
                 if (!result)
                     continue;
-*/
+
 
 /*
                 // skip rest of iteration if just checking configuration  ///CW- ASSSSSSSSSSSSSSSSSSSSSS
@@ -585,10 +632,10 @@ std::string  filenameAss ="E:/_Project/Cwc/_Cwc_Demos/Demos/Base_Example/01_Hell
 				S_timerResults.ShowResults(SHOWTIME_FILE);
 
 
-/*
+
                 if (!result)
                     continue;
-*/
+
                 // dump xml if --dump
                 if (_settings.dump && fdump.is_open()) {
                     fdump << "<dump cfg=\"" << cfg << "\">" << std::endl;

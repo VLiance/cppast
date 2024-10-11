@@ -24,6 +24,7 @@
 #include "settings.h"
 #include "timer.h"
 #include "check.h"
+#include "ObjFile.h"
 #include "_threadexecutor.h" // Threading model
 
 #include <algorithm>
@@ -50,23 +51,32 @@
 #define OK       0
 #define NO_INPUT 1
 #define TOO_LONG 2
-static int getLine(char *prmpt, char *buff, size_t sz) {
+static int getLine(const char *prmpt, char *buff, size_t sz) {
 	int ch, extra;
 
 	// Get line with buffer overrun protection.
 	if (prmpt != NULL) {
-		printf("%s", prmpt);
+//            printf("flush \n");
+	//	printf("%s", prmpt);
+
 		fflush(stdout);
+
+	//	printf("\nflush ");
 	}
-	if (fgets(buff, sz, stdin) == NULL)
+		//printf("fgets \n");
+	if (fgets(buff, sz, stdin) == NULL){
+            	//printf("\nNO_INPUT ");
 		return NO_INPUT;
+	}
 
 	// If it was too long, there'll be no newline. In that case, we flush
 	// to end of line so that excess doesn't affect the next call.
 	if (buff[strlen(buff) - 1] != '\n') {
 		extra = 0;
-		while (((ch = getchar()) != '\n') && (ch != EOF))
+		while (((ch = getchar()) != '\n') && (ch != EOF)){
+                	//	printf("%c", ch);
 			extra = 1;
+		}
 		return (extra == 1) ? TOO_LONG : OK;
 	}
 
@@ -77,7 +87,115 @@ static int getLine(char *prmpt, char *buff, size_t sz) {
 int nInputResult;
 char aInputBuff[1000];
  char* sNull = "\0";
-#define Is_Char(_cVal) ( (_cVal >= 'A' && _cVal <= 'Z')  || (_cVal >= 'a' && _cVal <= 'z')  ||  (_cVal >= '0' && _cVal <= '9') || _cVal == '_'  || _cVal == '\"' || _cVal == '\'' || _cVal == '\\' || _cVal == '/' || _cVal == ':'  || _cVal == '.' || _cVal == '-')
+//#define Is_Char(_cVal) ( (_cVal >= 'A' && _cVal <= 'Z')  || (_cVal >= 'a' && _cVal <= 'z')  ||  (_cVal >= '0' && _cVal <= '9') || _cVal == '_'  || _cVal == '\"' || _cVal == '\'' || _cVal == '\\' || _cVal == '/' || _cVal == ':'  || _cVal == '.' || _cVal == '-')
+#define Is_Char(_cVal) ( _cVal != '?' && _cVal != '>' && _cVal != '<' && _cVal != '|')
+#define Is_Delimiter(_cVal) ( _cVal != '?' && _cVal != '>' && _cVal != '<' && _cVal != '|')
+
+
+CmdLineParser* oCmdLineParser = 0;
+
+#include "WinMsg.h"
+
+bool CmdLineParser::ParseFromArgs(int argc, const char* const argv[]){
+   // ExeLocation = ( char*)argv[0];
+
+setbuf(stdout, NULL); //Buufered assohole
+
+
+    	//fflush(stdout);
+   	   std::cout << "aaaaaaaa" << std::endl;
+    	//    	printf("bbbb: \n");
+      	//printf("ccc: \n");fflush(stdout);
+     //   std::cout << "bbb" << std::endl;
+     //   std::cout << "ccc" << std::endl;
+  //	printf("\n bbbb: \n");
+	//printf(" \nExeLocation: %s \n", ExeLocation);
+
+    oCmdLineParser = this;
+    fCreateWindowsMsg(); //New Thread for Msg WM_DATA
+  //  printf("cwcAst:Rdy\n");fflush(stdout);
+     std::cout << "cwcAst:Rdy" << std::endl;
+
+	while (1) {
+
+
+		Sleep(20);
+
+		nInputResult = getLine("Enter string> ", aInputBuff, sizeof(aInputBuff));
+
+		printf("\n nInputResult [%d]\n", nInputResult);
+		if (nInputResult == NO_INPUT) {
+			// Extra NL since my system doesn't output that on EOF.
+			printf("\nNo input\n");
+			return 1;
+		}
+
+		if (nInputResult == TOO_LONG) {
+			printf("\nInput too long [%s]\n", aInputBuff);
+			return 1;
+		}
+		if (nInputResult == OK) {
+
+			printf("\nOK [%s]\n", aInputBuff);
+			fParseLine(aInputBuff);
+		}
+
+	}
+
+return false;
+	/*
+	for (int i = 1; i < argc; i++) {
+
+		if (i + 1 < argc) {
+			ParseFromArg(argv[i], argv[i + 1]);
+		}else {
+			ParseFromArg(argv[i], 0);
+		}
+	}*/
+
+
+
+
+	_settings->project.ignorePaths(_ignoredPaths);
+
+	/*
+	if (_settings->force)
+		_settings->maxConfigs = ~0U;
+
+	else if ((def || _settings->preprocessOnly) && !maxconfigs)
+		_settings->maxConfigs = 1U;
+	*/
+
+	if (_settings->isEnabled("unusedFunction") && _settings->jobs > 1) {
+		PrintMessage("cppcheck: unusedFunction check can't be used with '-j' option. Disabling unusedFunction check.");
+	}
+
+	if (_settings->xml) {
+		// Warn about XML format 1, which will be removed in cppcheck 1.81
+		if (_settings->xml_version == 1U)
+			PrintMessage("cppcheck: XML format version 1 is deprecated and will be removed in cppcheck 1.81. Use '--xml-version=2'.");
+		if (_settings->inconclusive && _settings->xml_version == 1U)
+			PrintMessage("cppcheck: inconclusive messages will not be shown, because the old xml format is not compatible.");
+	}
+
+	if (argc <= 1) {
+		_showHelp = true;
+		_exitAfterPrint = true;
+	}
+
+
+
+	// Print error only if we have "real" command and expect files
+	if (!_exitAfterPrint && _pathnames.empty() && _settings->project.fileSettings.empty()) {
+		PrintMessage("cppcheck: No C or C++ source files found.");
+		return false;
+	}
+
+	// Use paths _pathnames if no base paths for relative path output are given
+	if (_settings->basePaths.empty() && _settings->relativePaths)
+		_settings->basePaths = _pathnames;
+
+}
 
 
 
@@ -111,7 +229,7 @@ bool fIs(const char* _sCmd, const char* _sCompare){
 
 static void AddFilesToList(const std::string& FileList, std::vector<std::string>& PathNames)
 {
-//printf("\nAddFilesToList: %s", FileList);
+printf("\n--AddFilesToList: %s", FileList.c_str());
     // To keep things initially simple, if the file can't be opened, just be silent and move on.
     std::istream *Files;
     std::ifstream Infile;
@@ -187,22 +305,32 @@ bool CmdLineParser::fCompare(const char* _sCmd1, const char* _sLine)
 }
 */
 
-void CmdLineParser::fParseLine(const char* _sLine)
-{
-	UINT32 i = 0;
+//Thread Limit to one
 
-	printf(" \nLine: %s \n", _sLine);
+void CmdLineParser::fParseLine(const char* _sLine){
+    static bool bOnThread = false;
+    while(bOnThread){
+        Sleep(1);
+    }
+    bOnThread = true;
 
-	while (_sLine[i] != 0) {
-		if (_sLine[i] == '*') {
-			if (_sLine[i + 1] != 0 && _sLine[i + 1] != '*') {
-				fParseCmd(&_sLine[i + 1]);
-				i++;
-			}
-		}
+    UINT32 i = 0;
 
-		i++;
-	}
+    printf(" \nLine: %s \n", _sLine);
+
+    while (_sLine[i] != 0 &&  _sLine[i] != '<') {//'<' for large data
+   // while (_sLine[i] != 0 ) {
+        if (_sLine[i] == '*') {
+            if (_sLine[i + 1] != 0 && _sLine[i + 1] != '*') {
+                fParseCmd(&_sLine[i + 1]);
+                i++;
+            }
+         //   break; //Only one cmd?
+        }
+
+        i++;
+    }
+    bOnThread = false;
 }
 
 
@@ -211,8 +339,8 @@ void CmdLineParser::fParseCmd(const char* _sCmd)
 {
 
 
-//printf("\n---Cmd:");
-//	fPrintElement( _sCmd);
+printf("\n---Cmd:");
+	fPrintElement( _sCmd);
 
 
 	fParseVal(_sCmd);
@@ -231,23 +359,26 @@ void CmdLineParser::fParseVal(const char* _sCmd)
 	bool _bDelemiter = false;
 	UINT32 _nLength1 = 0;
     UINT32 _nLength2 = 0;
+    UINT32 _nLength3 = 0;
 
 
 	while (_sCmd[i] != 0 && _sCmd[i] != '*') {
-		if (    ! Is_Char(_sCmd[i])  ) {
+		if (  Is_Delimiter(_sCmd[i])  ) {
 			_bDelemiter = true;
 
 		}else{
 			if(_bDelemiter){
 				_bDelemiter = false;
 				if (_sVal1 == sNull) {
-					_sVal1 = (char*)&_sCmd[i];
+					_sVal1 = (char*)&_sCmd[i+1];
 				}else if (_sVal2 == sNull) {
                     _nLength1 = _nCount-1;
-					_sVal2 = (char*)&_sCmd[i];
+					_sVal2 = (char*)&_sCmd[i+1];
 				}else if (_sVal3 == sNull) {
                       _nLength2 = _nCount-1;
-					_sVal3 = (char*)&_sCmd[i];
+					_sVal3 = (char*)&_sCmd[i+1];
+				}else{//end
+                    break;
 				}
 				 _nCount = 0;
 			}
@@ -255,14 +386,31 @@ void CmdLineParser::fParseVal(const char* _sCmd)
 		i++;
         _nCount++;
 	}
+
 	if(_nLength1 == 0){
         _nLength1 = _nCount-1;
 	}
     if(_nLength2 == 0){
         _nLength2 = _nCount-1;
 	}
+	_nLength3 = _nCount -1;
+    //Remove space to end///
+/*
+    if (_sVal1 != sNull) {
+            _nLength1--;
+        while(_nLength1 > 0 && _sCmd[_nLength1] == ' '){
+            _nLength1--;
+        }   _nLength1++;
+    }
+    if (_sVal2 != sNull) {
 
-	fTestCmdVal(_sCmd,_sVal1, _sVal2,_sVal3 ,_nLength1  ,_nLength2 ,_nCount -1 );
+    }
+    if (_sVal3 != sNull) {
+
+    }*/
+
+
+	fTestCmdVal(_sCmd,_sVal1, _sVal2,_sVal3 ,_nLength1  ,_nLength2 ,_nLength3 );
 }
 
 
@@ -324,15 +472,86 @@ void CmdLineParser::fTestCmdVal(const char* _sCmd, const char* _sVal1, const cha
    std::string _sV1(_sVal1, _nLength1);
  //   std::string _sV1(_sVal1, 74);
 
+	printf("fTestCmdVal!!!!\n %s",_sCmd );
 
-	      if(fIs(_sCmd, "function"  )){
+
+    if(fIs(_sCmd, "function"  )){
 			printf("function!!!!\n");
-	}else if(fIs(_sCmd,  "patate"   )){
 
-		printf("PATAQTEEE!!!!\n");
+
+
+    }else if(fIs(_sCmd,  "Reparse"   )){ //AnalyseLocal Var
+
+            std::string _sV2(_sVal2, _nLength2);//temp
+           std::string _sV3(_sVal3, _nLength3);//temp
+
+        printf("\n-----Reparse!!!!!!  1: %s \n", _sV1.c_str());//Filename
+        printf("\n-----Reparse!!!!!!  2: %s \n", _sV2.c_str());//LastLine
+       printf("\n-----Reparse!!!!!!  3: %s \n", _sV3.c_str()); //Tail
+
+            ObjFile* _oFile = cppexecutor->cppCheck()->fGetFileObj(_sV1.c_str());
+            if(_oFile != nullptr){
+              //      printf("\n--FOUND !!!!!!!!!!!: %s \n", _sV1.c_str());
+                 _oFile->fReparse( atoi( _sVal2 ),  atoi( _sVal3 ), &_sVal3[_nLength3+1] );
+            }else{
+                printf("\n Reparse NOT FOUND !!!!!!!!!!!: %s \n", _sV1.c_str());
+            }
+
+        printf("\n---Finish--Reparse!!!!!!  3: %s \n", _sV3.c_str()); //Tail
+
+    }else if(fIs(_sCmd,  "LineChange"   )){ //AnalyseLocal Var
+
+            std::string _sV2(_sVal2, _nLength2);//temp
+           std::string _sV3(_sVal3, _nLength3);//temp
+
+        printf("\n-----GetLineScope!!!!!!  1: %s \n", _sV1.c_str());//Filename
+        printf("\n-----GetLineScope!!!!!!  2: %s \n", _sV2.c_str());//LastLine
+       printf("\n-----GetLineScope!!!!!!  3: %s \n", _sV3.c_str()); //Tail
+
+            ObjFile* _oFile = cppexecutor->cppCheck()->fGetFileObj(_sV1.c_str());
+            if(_oFile != nullptr){
+                    printf("\n--FOUND !!!!!!!!!!!: |%s| \n", _sV1.c_str());
+                 _oFile->fGetLocalScopeVar( atoi( _sVal2 ),  atoi( _sVal3 ));
+            }else{
+                printf("\n--LineChange NOT FOUND !!!!!!!!!!!: |%s| \n", _sV1.c_str());
+            }
+
+
+
+
+    }else if(fIs(_sCmd,  "GetRelScope"   )){
+
+           std::string _sV2(_sVal2, _nLength2);//temp
+           std::string _sV3(_sVal3, _nLength3);//temp
+
+    //    printf("\n-----GetRelScope!!!!!!  1: %s \n", _sV1.c_str());//Filename
+   //     printf("\n-----GetRelScope!!!!!!  2: %s \n", _sV2.c_str());//LastLine
+    //    printf("\n-----GetRelScope!!!!!!  3: %s \n", _sV3.c_str()); //Tail
+
+            ObjFile* _oFile = cppexecutor->cppCheck()->fGetFileObj(_sV1.c_str());
+            if(_oFile != nullptr){
+                    printf("\n--FOUND !!!!!!!!!!!: |%s| \n", _sV1.c_str());
+              //  _oFile->fReload();
+            }else{
+                printf("\n GetRelScope -NOT FOUND !!!!!!!!!!!: %s \n", _sV1.c_str());
+            }
+
+
+	}else if(fIs(_sCmd,  "Reload"   )){
+
+        //printf("\n-----Reload!!!!!!!!!!!!: %s \n", _sV1.c_str());
+
+            ObjFile* _oFile = cppexecutor->cppCheck()->fGetFileObj(_sV1.c_str());
+            if(_oFile != nullptr){
+       //             printf("\n--FOUND !!!!!!!!!!!: %s \n", _sV1.c_str());
+                _oFile->fReload();
+            }else{
+                printf("\n Reload -NOT FOUND !!!!!!!!!!!: |%s| \n", _sV1.c_str());
+            }
+
 	}if(  fIs(_sCmd,  "GetClassInfo")   || fIs(_sCmd,  "run" )  ||  fIs(_sCmd,  "parse" )   ){
 
-    printf("-----GetClassInfo!!!!!!!!!!!!: %s \n", _sV1.c_str());
+    printf("\n-----GetClassInfo!!!!!!!!!!!!: %s \n", _sV1.c_str());
 		//printf("_nLength1!!!!--%d\n", _nLength1);
 //printf("_nLength1!!!!--%d\n", _sV1.length());
 
@@ -367,13 +586,25 @@ _settings->reportProgress = true;
 
 		//	fAddDefine("__llvm__=1");
 
+
+//	printf("Source!!!!\n %s",_sV1 );
+
 			///////Include ///
-			if(_sVal1 == sNull){
-                _sV1 = "E:/_Project/Cwc/_Cwc_Demos/Demos/Base_Example/01_HelloWorld/HelloWorld.cpp";
+		//	if(_sVal1 == sNull){
+			if(_sV1.length() == 0){
+
+               // _sV1 = "E:/_Project/Cwc/_Cwc_Demos/Demos/Base_Example/01_HelloWorld/HelloWorld.cpp";
+                _sV1 = "E:/TestProjectFD/TestCw/Main1.cpp";
 			}
+
       fAddSource(_sV1);
 
+
+      fAddInclude("E:/_Project/Cwc/Compiler/Honera/LibRT/LibRT-0.0.9/i686-w64-mingw32/include/");
+      fAddInclude("E:/_Project/Cwc/Compiler/Honera/LibRT/LibRT-0.0.9/i686-w64-mingw32/include/c++/");
+
 			//////////////////////
+			/*
 			fAddInclude("E:/_Project/Cwc/Modules/GZE/");
 			fAddInclude("E:/_Project/Cwc/Modules/GZE/SubLib_System/");
 
@@ -383,17 +614,17 @@ _settings->reportProgress = true;
 			fAddInclude("E:/_Project/Cwc/Modules/LibRT_x64/i686-w64-mingw32/include/");
 			fAddInclude("E:/_Project/Cwc/Modules/LibRT_x64/clang_inc/");
 			fAddInclude("E:/_Project/Cwc/Modules/LibRT_x64/i686-w64-mingw32/include/c++/i686-w64-mingw32/");
+*/
 
 
 
-
-
+			printf("\n--- RUN ---\n");
 
 		int _nTest = 0;
 		cppexecutor->fRun();
 		cppexecutor->check_wrapper(_sV1, *cppcheck, _nTest, &ExeLocation);
 
-			printf("\n--- RUN ---\n");
+
 		// if (settings.terminated()) {
 		//		return EXIT_SUCCESS;
 		//	}
@@ -410,13 +641,13 @@ _settings->reportProgress = true;
 
 
 
-
+/*
 	printf("\n---------\n");
 		fPrintElement( _sCmd);
 		fPrintElement( _sVal1);
 		fPrintElement( _sVal2);
 	printf("---------\n");
-
+*/
 
 
 
@@ -424,88 +655,9 @@ _settings->reportProgress = true;
 
 
 
-bool CmdLineParser::ParseFromArgs(int argc, const char* const argv[])
-{
-    printf("cwcAst:Rdy\n");
-ExeLocation = ( char*)argv[0];
-	while (1) {
-
-
-		Sleep(20);
-
-		nInputResult = getLine("Enter string> ", aInputBuff, sizeof(aInputBuff));
-		if (nInputResult == NO_INPUT) {
-			// Extra NL since my system doesn't output that on EOF.
-			printf("\nNo input\n");
-			return 1;
-		}
-
-		if (nInputResult == TOO_LONG) {
-			printf("Input too long [%s]\n", aInputBuff);
-			return 1;
-		}
-		if (nInputResult == OK) {
-
-			printf("OK [%s]\n", aInputBuff);
-			fParseLine(aInputBuff);
-		}
-
-	}
-
-
-	/*
-	for (int i = 1; i < argc; i++) {
-
-		if (i + 1 < argc) {
-			ParseFromArg(argv[i], argv[i + 1]);
-		}else {
-			ParseFromArg(argv[i], 0);
-		}
-	}*/
 
 
 
-
-	_settings->project.ignorePaths(_ignoredPaths);
-
-	/*
-	if (_settings->force)
-		_settings->maxConfigs = ~0U;
-
-	else if ((def || _settings->preprocessOnly) && !maxconfigs)
-		_settings->maxConfigs = 1U;
-	*/
-
-	if (_settings->isEnabled("unusedFunction") && _settings->jobs > 1) {
-		PrintMessage("cppcheck: unusedFunction check can't be used with '-j' option. Disabling unusedFunction check.");
-	}
-
-	if (_settings->xml) {
-		// Warn about XML format 1, which will be removed in cppcheck 1.81
-		if (_settings->xml_version == 1U)
-			PrintMessage("cppcheck: XML format version 1 is deprecated and will be removed in cppcheck 1.81. Use '--xml-version=2'.");
-		if (_settings->inconclusive && _settings->xml_version == 1U)
-			PrintMessage("cppcheck: inconclusive messages will not be shown, because the old xml format is not compatible.");
-	}
-
-	if (argc <= 1) {
-		_showHelp = true;
-		_exitAfterPrint = true;
-	}
-
-
-
-	// Print error only if we have "real" command and expect files
-	if (!_exitAfterPrint && _pathnames.empty() && _settings->project.fileSettings.empty()) {
-		PrintMessage("cppcheck: No C or C++ source files found.");
-		return false;
-	}
-
-	// Use paths _pathnames if no base paths for relative path output are given
-	if (_settings->basePaths.empty() && _settings->relativePaths)
-		_settings->basePaths = _pathnames;
-
-}
 
 
 bool CmdLineParser::ParseFromArg( const char* argv, const char* aNext)

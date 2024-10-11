@@ -320,7 +320,8 @@ std::string ErrorLogger::ErrorMessage::toXML(bool verbose, int version) const
         }
         printer.PushAttribute("id", _id.c_str());
         printer.PushAttribute("severity", (_severity == Severity::error ? "error" : "style"));
-        printer.PushAttribute("msg", fixInvalidChars(verbose ? _verboseMessage : _shortMessage).c_str());
+        printer.PushAttribute("msg", (verbose ? _verboseMessage : _shortMessage).c_str());
+      //  printer.PushAttribute("msg", fixInvalidChars(verbose ? _verboseMessage : _shortMessage).c_str());
         printer.CloseElement(false);
         return printer.CStr();
     }

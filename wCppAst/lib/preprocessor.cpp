@@ -526,7 +526,7 @@ static bool hasErrors(const simplecpp::OutputList &outputList)
 
 void Preprocessor::loadFiles(const simplecpp::TokenList &rawtokens, std::vector<std::string> &files)
 {
-	//printf("\n-loadFiles: %s",  files[0].c_str());
+	printf("\n-loadFiles: %s",  files[0].c_str());
     const simplecpp::DUI dui = createDUI(_settings, emptyString, files[0]);
 
     simplecpp::OutputList outputList;

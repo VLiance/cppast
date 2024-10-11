@@ -1,0 +1,5 @@
+*run|E:\TestProjectFD\TestCw\src\HelloWorld.cpp|
+*Reload|E:\TestProjectFD\TestCw\src\HelloWorld.cpp|
+
+*GetClassInfo|E:\TestProjectFD\TestCw\src\SimpleClass.h|
+*GetClassInfo|E:\_Project\Cwc\Compiler\Honera\LibRT\LibRT-0.0.9\i686-w64-mingw32\include\c++\bits\stl_stack.h|

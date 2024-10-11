@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DF00EA11-9BFD-437E-9429-88F6059827DC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CwideContext</RootNamespace>
+    <AssemblyName>CwideContext</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\Cwc\IDE\Plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\..\Cwc\IDE\Plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>..\..\..\FlashDevelop\Bin\Debug\Plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>..\..\..\FlashDevelop\Bin\Debug\Plugins\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>true</Optimize>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Assohole|AnyCPU'">
+    <OutputPath>bin\Assohole\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Assohole|x86'">
+    <OutputPath>bin\x86\Assohole\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+    <Reference Include="UIAutomationClient" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConsolePanel\ConsoleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConsolePanel\ConsoleControl.Designer.cs" />
+    <Compile Include="ConsolePanel\Settings.cs" />
+    <Compile Include="ConsolePanel\TabbedConsole.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConsolePanel\TabbedConsole.Designer.cs" />
+    <Compile Include="ConsolePanel\WinApi.cs" />
+    <Compile Include="FileUtils.cs" />
+    <Compile Include="Project\GenericMovieOptions.cs" />
+    <Compile Include="Project\GenericOptions.cs" />
+    <Compile Include="Project\GenericProject.cs" />
+    <Compile Include="Project\GenericProjectReader.cs" />
+    <Compile Include="Project\GenericProjectWriter.cs" />
+    <Compile Include="LauchTool.cs" />
+    <Compile Include="Msg.cs" />
+    <Compile Include="Node\CwLib.cs" />
+    <Compile Include="Node\CwLibGroup.cs" />
+    <Compile Include="Node\LibNodes.cs" />
+    <Compile Include="Node\ProjectNode.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="ProjectGen\ProjectCreatorAll.cs" />
+    <Compile Include="ProjectGen\ProjectArg.cs" />
+    <Compile Include="ProjectGen\ProjectMakeInfo.cs" />
+    <Compile Include="ProjectGen\ProjectBuildAll.cs" />
+    <Compile Include="ProjectGen\ProjectCreatorGroup.cs" />
+    <Compile Include="ProjectGen\ProjectCreator.cs" />
+    <Compile Include="Completion.cs" />
+    <Compile Include="Context.cs" />
+    <Compile Include="ContextSettings.cs" />
+    <Compile Include="MsgProcess.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PluginMain.cs" />
+    <Compile Include="PluginUI.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Resources\LocaleHelper.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Utils\RegisterFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\FlashDevelop\FlashDevelop.csproj">
+      <Project>{efd07485-9a64-4eec-94e7-acbd4da5ca93}</Project>
+      <Name>Cwide</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PluginCore\PluginCore.csproj">
+      <Project>{61885F70-B4DC-4B44-852D-5D6D03F2A734}</Project>
+      <Name>PluginCore</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\ASCompletion\ASCompletion.csproj">
+      <Project>{4ebf2653-9654-4e40-880e-0046b3d6210e}</Project>
+      <Name>ASCompletion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProjectManager\ProjectManager.csproj">
+      <Project>{78101c01-e186-4954-b1dd-debb7905fad8}</Project>
+      <Name>ProjectManager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ConsolePanel\ConsoleControl.resx">
+      <DependentUpon>ConsoleControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConsolePanel\TabbedConsole.resx">
+      <DependentUpon>TabbedConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PluginUI.resx">
+      <DependentUpon>PluginUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\en_US.resX">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\cppFile.png" />
+  </ItemGroup>
+</Project>

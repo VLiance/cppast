@@ -1809,14 +1809,17 @@ namespace {
 
     std::string openHeader(std::ifstream &f, const simplecpp::DUI &dui, const std::string &sourcefile, const std::string &header, bool systemheader)
     {
+
         if (!systemheader) {
             if (sourcefile.find_first_of("\\/") != std::string::npos) {
                 const std::string s = sourcefile.substr(0, sourcefile.find_last_of("\\/") + 1U) + header;
-                f.open(s.c_str());
+//                printf("\-----OpenS: %s", s.c_str());
+               f.open(s.c_str());
                 if (f.is_open())
                     return simplecpp::simplifyPath(s);
             } else {
                 f.open(header.c_str());
+         //       printf("\-----OpenH: %s", header.c_str());
                 if (f.is_open())
                     return simplecpp::simplifyPath(header);
             }
@@ -1828,7 +1831,8 @@ namespace {
                 s += '/';
             s += header;
             f.open(s.c_str());
-            if (f.is_open())
+//            printf("\-----OpenM: %s", s.c_str());
+           if (f.is_open())
                 return simplecpp::simplifyPath(s);
         }
 
@@ -1958,6 +1962,7 @@ std::map<std::string, simplecpp::TokenList*> simplecpp::load(const simplecpp::To
 static bool preprocessToken(simplecpp::TokenList &output, const simplecpp::Token **tok1, std::map<std::string, simplecpp::Macro> &macros, std::vector<std::string> &files, simplecpp::OutputList *outputList)
 {
     const simplecpp::Token *tok = *tok1;
+  //  std::cout << "Find: " << tok->str << std::endl; //CW test
     const std::map<std::string,simplecpp::Macro>::const_iterator it = macros.find(tok->str);
     if (it != macros.end()) {
         simplecpp::TokenList value(files);
@@ -2169,6 +2174,7 @@ void simplecpp::preprocess(simplecpp::TokenList &output, const simplecpp::TokenL
 				//	continue;
 //	printf("--IncludSourcefilee:%s\n",header.c_str());
                     // try to load file..
+
                     std::ifstream f;
                     header2 = openHeader(f, dui, rawtok->location.file(), header, systemheader);
 					files.push_back(header2);
@@ -2213,7 +2219,7 @@ void simplecpp::preprocess(simplecpp::TokenList &output, const simplecpp::TokenL
 ////!!!!!!!!!!!!!!!!!!!!!!
        //             rawtok = includetokens ? includetokens->cfront() : 0;         ///CW-  Dont recursively inlcude INCLUDE  //!!!!!!!!!!!!
 ////!!!!!!!!!!!!!!!!!!!!!!
-                    continue;
+                   // continue; ///Do not continu (skip)!!
                 }
 			//////////////////////////////////////////////////////////////////////////
 			/////////////////////////////////////////////////////////////////////////////

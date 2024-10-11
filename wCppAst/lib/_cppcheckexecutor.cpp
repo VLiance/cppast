@@ -79,6 +79,14 @@ CppCheckExecutor::~CppCheckExecutor()
 
 
  CmdLineParser parser(0);
+
+CmdLineParser* CppCheckExecutor::Parser(){
+    return &parser;
+}
+CppCheck* CppCheckExecutor::cppCheck(){
+    return parser.cppcheck;
+}
+
 bool CppCheckExecutor::parseFromArgs(CppCheck *cppcheck, int argc, const char* const argv[])
 {
 
@@ -795,6 +803,8 @@ int CppCheckExecutor::check_internal(std::string _sFile, CppCheck& cppcheck, int
 {
     Settings& settings = cppcheck.settings();
     _settings = &settings;
+
+    /*  Cwc disable .cfg files
     bool std = tryLoadLibrary(settings.library, argv[0], "std.cfg");
     bool posix = true;
     if (settings.standards.posix)
@@ -820,8 +830,7 @@ int CppCheckExecutor::check_internal(std::string _sFile, CppCheck& cppcheck, int
         reportErr(errmsg);
         return EXIT_FAILURE;
     }
-
-
+    */
 
 // CW add  ////////
 cppcheck.check(_sFile); //CW stop

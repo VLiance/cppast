@@ -35,6 +35,8 @@
 
 class ErrorLogger;
 class Settings;
+class CppCheck;
+class Scope;
 
 /**
  * @brief A preprocessor directive
@@ -63,7 +65,9 @@ public:
      std::istringstream istr;
    std::string  codeWithoutCfg;
     std::string cfg;
-std::ifstream* oFileStream;
+//std::ifstream* oFileStream;
+
+CppCheck* oParent;
 Preprocessor Preproc;
 Preprocessor* oPreproc;
 Tokenizer* oTokenizer;
@@ -75,17 +79,25 @@ std::string sFileName;
  std::vector<std::string> aIncludesList; //List of included headers
 
 
-    ObjFile( Settings& settings,  ErrorLogger *errorLogger );
+    ObjFile( Settings& settings,  ErrorLogger *errorLogger,  CppCheck *_oParent );
 	void fIni(const std::string&);
-	void fTokenize();
+	bool fTokenize();
+	void fReadFileToToken();
+    simplecpp::Token*  fSeekFirstTokenOnLine(int _nLine);
+	void fOutputClass();
+	void fReload();
+    void fDelete();
     virtual ~ObjFile();
-	std::string fGetMember();
+    std::string fGetMembers();
+    void fReparse(int _nLine, int _nLastLine,const char* _sText);
+	std::string fGetMember(const Scope* scope, int _nMinLine = 0);
 	std::string fGetFunctions();
 	std::string fGetImport(unsigned int _nIndex);
-
+    void fReadBufferToToken( const char* _aBuff , unsigned int _nLenght);
+	void fLoadAllInclude();
 	std::string fGetAllFunctions();
 	std::string fGetAllSubFile(std::vector<ObjFile*>& _aFiles);
-
+    void fGetLocalScopeVar(int _nLine, int _nLastLine);
 
 };
 

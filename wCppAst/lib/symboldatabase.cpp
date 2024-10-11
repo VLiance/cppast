@@ -2772,7 +2772,8 @@ void SymbolDatabase::printXml(std::ostream &out) const
   for (std::list<Scope>::const_iterator scope = scopeList.begin(); scope != scopeList.end(); ++scope) {
 
       for (std::list<Function>::const_iterator function = scope->functionList.begin(); function != scope->functionList.end(); ++function) {
-				// printf("\ncppc:Func:%s" , function->name().c_str());
+				printf("cppc:Func:%s\n" , function->name().c_str());
+
 //			 printf("\ncppc:Func:%s" , function->name().c_str());
 				// printf("\n--cppc:Func:" );
 
@@ -2794,7 +2795,7 @@ void SymbolDatabase::printXml(std::ostream &out) const
 		 }
 	}
 
-				 printf("\n--");
+		//		 printf("\n--");
 
 /////////////////////
 return;

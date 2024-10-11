@@ -72,7 +72,9 @@ public:
     unsigned int check(const std::string &path);
     unsigned int check(const ImportProject::FileSettings &fs);
 
-
+std::string  fSimplifyPath(const std::string& filename);
+ObjFile*  fGetFileObj(const std::string& filename);
+ObjFile*  fGetFileObjRaw(const std::string& filename);
 ObjFile*  fReadFile(const std::string & filename);
 
     /**
