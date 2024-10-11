@@ -218,6 +218,8 @@ int CppCheckExecutor::check(int argc, const char* const argv[])
     } else {
         return check_internal(cppCheck, argc, argv);
     }*/
+    
+    return 0;
 }
 
 /**

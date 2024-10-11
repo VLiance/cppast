@@ -37,6 +37,8 @@ printf("\nEE######################################");fflush(stdout);
   }
   else
    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+   
+   return 0;
 }
 
 
